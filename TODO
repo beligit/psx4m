@@ -1,0 +1,3 @@
+- blink N900 LED when data from CD is loaded
+- add .BIN.Z and .ZNX extensions
+- add BIOS selector and check whether it is set up

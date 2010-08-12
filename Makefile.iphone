@@ -1,0 +1,222 @@
+O      = o
+
+ZODTTD=1
+
+ifdef ZODTTD
+	PREFIX 	= /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/arm-apple-darwin9-
+  CC     	= ${PREFIX}gcc-4.2.1
+  CXX    	= ${PREFIX}g++-4.2.1
+  AS     	= ${PREFIX}gcc-4.2.1
+  STRIP  	= ${PREFIX}strip
+  INC    	= 
+  INCS   	= ${INC}
+  LD     	= ${PREFIX}gcc-4.2.1
+  LDFLAGS	= -lobjc \
+		        -lpthread \
+	          -framework CoreFoundation \
+	          -framework Foundation \
+	          -framework UIKit \
+	          -framework QuartzCore \
+	          -framework CoreGraphics \
+	          -framework CoreSurface \
+	          -framework CoreLocation \
+	          -framework AudioToolbox \
+	          -framework GraphicsServices \
+	          -framework AddressBook \
+	          -lz \
+	          -lAdMobDeviceNoThumb3_0 -lMobclix -lMobClixAds -lMobClixBrowser -lMobClixFeedback -lsqlite3 \
+						-framework SystemConfiguration 
+endif
+
+#STD_INTERP=1
+#NAME  = psx4all_std_int
+
+STD_DYNAREC=1
+NAME  = psx4iphone
+
+PROG   = $(NAME)
+
+USE_HLE=1
+NEWSPU=1
+#DRHELLGPU=1
+#DUMMYGPU=1
+
+#NULLSPU=1
+
+DEFS = -DPSXDUMMYDEFINE
+#DEFS  += -DUSE_OLD_COUNTERS
+#DEFS  += -DNOSOUND
+
+#DEFS += -DNO_RENDER
+
+#DEFS += -DEMU_LOG -DLOG_STDOUT
+#DEFS += -DPROFILER_PSX4ALL
+#DEFS += -DPROFILER_SDL
+#DEFS += -DAUTOEVENTS=4000
+#DEFS += -DMAXFRAMES=4000
+#DEFS += -DNOTHREADLIB 
+#DEFS += -DGP2X_SDLWRAPPER_NODOUBLEBUFFER
+
+
+ifdef STD_INTERP
+DEFS += -DINTERP
+endif
+
+ifdef STD_DYNAREC
+DEFS += -DDYNAREC
+endif
+
+ifdef USE_HLE
+DEFS += -DWITH_HLE
+endif
+
+DEFAULT_CFLAGS = -DWITH_ADS -DIPHONE -DGP2X -DARM_ARCH -DDATA_PREFIX=\"example/\" -DROM_PREFIX=\"./\" -Isrc -I./iphone $(INCS) $(DEFS)
+
+MORE_CFLAGS = -F/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.2.1.sdk/System/Library/Frameworks -F/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.2.1.sdk/System/Library/PrivateFrameworks -I../../ -I../../Classes/ -I../../Classes/AdMob/ -I/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/usr/lib/gcc/arm-apple-darwin9/4.2.1/include -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.2.1.sdk -L../../Classes/AdMob/ -L../../Classes/AdMob/ARM/ -L/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.2.1.sdk/usr/lib -march=armv6 -mcpu=arm1176jzf-s -miphoneos-version-min=2.2.1 -O3 -ffast-math -ftemplate-depth-36 -mstructure-size-boundary=32 -falign-functions=32 -falign-loops -falign-labels -falign-jumps -finline -finline-functions -fno-builtin -fno-common -funroll-loops -fstrength-reduce -fpeel-loops -fomit-frame-pointer -fsigned-char -DINLINE="inline"
+
+#-arch armv6 -pipe -std=c99 -O3 -fnested-functions -fsigned-char -fno-common -fno-builtin -fomit-frame-pointer -fstrict-aliasing -fpeel-loops -falign-functions -fweb -fstrength-reduce -fexpensive-optimizations -finline -finline-functions -miphoneos-version-min=3.0 
+
+#-ffast-math -ftemplate-depth-36 -fstrict-aliasing -mstructure-size-boundary=32 -falign-functions=32 -falign-loops -falign-labels -falign-jumps -finline -finline-functions -fno-builtin -fno-common -funroll-loops -fstrength-reduce -fpeel-loops -fomit-frame-pointer -fsigned-char -DINLINE="inline"
+
+#MORE_CFLAGS = -ffast-math -mcpu=cortex-a8 -O3
+#MORE_CFLAGS += -ftemplate-depth-36
+#MORE_CFLAGS += -fstrict-aliasing -mstructure-size-boundary=32 -fexpensive-optimizations 
+#MORE_CFLAGS += -fomit-frame-pointer 
+#MORE_CFLAGS += -falign-functions=32 -falign-loops -falign-labels -falign-jumps
+#MORE_CFLAGS += -finline -finline-functions -fno-common
+#MORE_CFLAGS += -funroll-loops -fstrength-reduce 
+#MORE_CFLAGS += -fsigned-char
+#MORE_CFLAGS += -DLSB_FIRST -DSIGNED_SAMPLES -DACORN -DINLINE="inline"
+#MORE_CFLAGS +=	-fpeel-loops 
+
+#MORE_CFLAGS += -DMITSHM $(DEFS) -DUNZIP_SUPPORT -DZLIB -DHAVE_MKSTEMP -DHAVE_STRINGS_H 
+#'-DACCEPT_SIZE_T=int'
+
+CFLAGS  = $(DEFAULT_CFLAGS) $(MORE_CFLAGS)
+CPPFLAGS  = $(DEFAULT_CFLAGS) $(MORE_CFLAGS)
+ASFLAGS  = -c $(DEFAULT_CFLAGS) $(MORE_CFLAGS)
+
+ASM_OBJS = 
+
+OBJS =	\
+	CdRom.o \
+	Decode_XA.o \
+	gte.o \
+	LnxMain.o \
+	Mdec.o \
+	Misc.o \
+	plugins.o \
+	PsxBios.o \
+	PsxCounters.o \
+	PsxDma.o \
+	PsxHLE.o \
+	PsxHw.o \
+	PsxMem.o \
+	R3000A.o \
+	Sio.o \
+	Spu.o \
+	interpreter/interpreter.o \
+	iphone/minimal.o \
+	iphone/iphone.o \
+	../../main.o ../../Classes/NowPlayingController.o ../../Classes/AdMob/AltAds.o  ../../Classes/OptionsController.o ../../Classes/RecentController.o ../../Classes/RomController.o ../../Classes/SaveStatesController.o ../../Classes/ShoutOutAppDelegate.o ../../Classes/SOApplication.o ../../Classes/TabBar.o  ../../Classes/helpers.o
+	
+OBJS += 	cdr/oldversion/cdriso.o 
+
+#OBJS += 	cdr/CDDAData.o 
+#OBJS += 	cdr/FileInterface.o 
+#OBJS += 	cdr/Globals.o 
+#OBJS += 	cdr/Open.o 
+#OBJS += 	cdr/SubchannelData.o 
+#OBJS += 	cdr/TrackParser.o 
+#OBJS += 	cdr/unrar/unrarlib.o 
+#OBJS += 	cdr/bzip/blocksort.o 
+#OBJS += 	cdr/bzip/bzlib.o 
+#OBJS += 	cdr/bzip/compress.o 
+#OBJS += 	cdr/bzip/crctable.o 
+#OBJS += 	cdr/bzip/decompress.o 
+#OBJS += 	cdr/bzip/huffman.o 
+#OBJS += 	cdr/bzip/randtable.o 
+
+ifdef NULLSPU
+OBJS += nullspu/spu_core.o 
+else
+ifdef NEWSPU
+OBJS +=	\
+	franspu/spu_callback.o \
+	franspu/spu_dma.o \
+	franspu/spu_registers.o \
+	franspu/spu_output_iphone.o
+else
+OBJS +=	\
+	petespu/stdafx.o \
+	petespu/adsr.o \
+	petespu/spu_dma.o \
+	petespu/freeze.o \
+	petespu/oss.o \
+	petespu/registers.o \
+	petespu/reverb.o \
+	petespu/spu.o \
+	petespu/xa.o 
+endif
+endif
+
+ifdef STD_DYNAREC
+OBJS += recompiler3/arm/recompiler.o 
+OBJS += recompiler3/arm/disasm.o 
+OBJS += recompiler3/arm/mips_disasm.o 
+#ASM_OBJS += recompiler3/arm/arm.S 
+endif
+
+GPU_OBJS =  gpuAPI/gpuAPI.o
+
+
+ifdef DRHELLGPU
+GPU_OBJS += gpuAPI/drhellGPU/GPU.o 
+else
+GPU_OBJS += gpuAPI/newGPU/newGPU.o 	      \
+            gpuAPI/newGPU/fixed.o         \
+            gpuAPI/newGPU/core_Command.o  \
+            gpuAPI/newGPU/core_Dma.o      \
+            gpuAPI/newGPU/core_Draw.o     \
+            gpuAPI/newGPU/core_Misc.o     \
+            gpuAPI/newGPU/raster_Sprite.o \
+            gpuAPI/newGPU/raster_Poly.o   \
+            gpuAPI/newGPU/raster_Line.o   \
+            gpuAPI/newGPU/raster_Image.o  \
+            gpuAPI/newGPU/inner.o
+endif
+
+ASM_OBJS += iphone/ARM_asm.S
+
+
+%.o: %.cpp
+	${CXX} ${CFLAGS} -c -o $@ $<
+
+#%.o: %.s
+#	${CXX} ${CFLAGS} -c -o $@ $<
+
+%.o: %.c
+	${CC} ${CFLAGS} -c -o $@ $<
+
+all:	${OBJS} ${GPU_OBJS}
+	${LD} ${ASM_OBJS} ${CFLAGS} ${LDFLAGS} -o ${PROG} ${GPU_OBJS} ${OBJS}
+
+#	${STRIP} ${PROG}
+
+
+#$(PROG): $(OBJS) $(GPU_OBJS) $(ASM_OBJS)
+#	$(LD) $(CFLAGS) -o $(PROG) $(OBJS) $(GPU_OBJS) $(ASM_OBJS) $(LDFLAGS) -s
+#	$(STRIP) $(PROG)
+
+run: $(PROG)
+	./$(PROG) example
+
+clean:
+	$(RM) $(PROG) $(OBJS) $(GPU_OBJS)
+
+test:
+	$(CXX) $(CFLAGS) -S -o arm/arm_std_rec.S arm/arm_std_rec.cpp
+
+test2:
+	$(CXX) $(CFLAGS) -S -o misc.S misc.cpp
+

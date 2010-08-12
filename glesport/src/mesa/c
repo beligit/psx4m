@@ -1,0 +1,3 @@
+gcc -Wall -g egltest.c -o egltest -lX11 -L../../lib -lGL -lGLES_CM 
+#LD_LIBRARY_PATH=../../lib ./egltest
+gcc -Wall -g gluttest.c -o gluttest -lX11 -lglut -L../../lib -lGL

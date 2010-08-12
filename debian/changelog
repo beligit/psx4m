@@ -1,0 +1,8 @@
+psx4m (0.4.1) fremantle; urgency=low
+
+  * Initial packaging.
+  * Implemented PulseAudio sound backend
+  * Implemented HAA video scaler
+  * Added commandline options
+
+ -- Tomasz Sterna <tomek@xiaoka.com>  Sat, 17 Jul 2010 17:06:24 +0200
