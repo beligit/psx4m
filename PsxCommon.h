@@ -155,7 +155,7 @@ extern int NetOpened;
 
 //#define BIAS	4
 #define BIAS	2
-#define BIAS_CYCLE_INC 3
+#define BIAS_CYCLE_INC	(PsxCycleMult)
 #define PSXCLK	33868800	/* 33.8688 Mhz */
 
 #ifndef _GPU_API_

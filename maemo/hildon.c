@@ -27,16 +27,16 @@ window_key_proxy (GtkWidget *widget,
 	unsigned long key = 0;
 	
 	switch (event->keyval) {
-		case GDK_j:
+		case GDK_Left:
 			key = GP2X_LEFT;
 			break;
-		case GDK_l:
+		case GDK_Right:
 			key = GP2X_RIGHT;
 			break;
-		case GDK_i:
+		case GDK_Up:
 			key = GP2X_UP;
 			break;
-		case GDK_k:
+		case GDK_Down:
 			key = GP2X_DOWN;
 			break;
 
@@ -64,13 +64,13 @@ window_key_proxy (GtkWidget *widget,
 		case GDK_q:
 			key = GP2X_VOL_DOWN;
 			break;
-		case GDK_w:
+		case GDK_r:
 			key = GP2X_VOL_UP;
 			break;
-		case GDK_u:
+		case GDK_w:
 			key = GP2X_L;
 			break;
-		case GDK_o:
+		case GDK_e:
 			key = GP2X_R;
 			break;
 
@@ -134,7 +134,7 @@ void gp2x_change_res(int w, int h)
 	image = gdk_image_new( GDK_IMAGE_FASTEST, gdk_visual_get_system(), w, h );
 
 	screenbuffer = (unsigned short*) image->mem;
-	screen_size = image->bpl * h * image->bpp;
+	screen_size = image->bpl * (h / (linesInterlace_user+1)) * image->bpp;
 
 	gtk_image_set_from_image (GTK_IMAGE(drawing), image, NULL);
 

@@ -105,7 +105,7 @@ static void stream_request_cb (pa_stream *stream, size_t length, void *userdata)
 	  return;
 	 
 	 length -= length % dev->buffer_attributes.minreq;
-     if (dev->mainloop != NULL && length > 0)
+     if ((!iSoundMuted) && dev->mainloop != NULL && length > 0)
      {
 	  pa_threaded_mainloop_lock (dev->mainloop);
 	  if (pa_stream_write (dev->stream, SPU_async_X(length/2), length, NULL, 0LL, PA_SEEK_RELATIVE) < 0)

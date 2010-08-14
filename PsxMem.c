@@ -74,9 +74,8 @@ void psxMemReset() {
 		f = fopen(Bios, "rb");
 
 		if (f == NULL) {
-			fprintf(stderr, "Could not open bios:\"%s\". Enabling HLE Bios\n", Bios);
-			memset(psxR, 0, 0x80000);
-			Config.HLE = 1;
+			fprintf(stderr, "Could not open PSX BIOS: \"%s\".\n", Bios);
+			exit(1);
 		}
 		else {
 			fread(psxR, 1, 0x80000, f);

@@ -19,37 +19,37 @@
 
 #include "PsxCommon.h"
 
-static void hleDummy() {
+static u32 hleDummy() {
 	psxRegs->pc = psxRegs->GPR.n.ra;
-
-	psxBranchTest();
+	
+	return psxRegs->pc;
 }
 
-static void hleA0() {
+static u32 hleA0() {
 	u32 call = psxRegs->GPR.n.t1 & 0xff;
 
 	if (biosA0[call]) biosA0[call]();
-
-	psxBranchTest();
+	
+	return psxRegs->pc;
 }
 
-static void hleB0() {
+static u32 hleB0() {
 	u32 call = psxRegs->GPR.n.t1 & 0xff;
 
 	if (biosB0[call]) biosB0[call]();
-
-	psxBranchTest();
+	
+	return psxRegs->pc;
 }
 
-static void hleC0() {
+static u32 hleC0() {
 	u32 call = psxRegs->GPR.n.t1 & 0xff;
 
 	if (biosC0[call]) biosC0[call]();
-
-	psxBranchTest();
+	
+	return psxRegs->pc;
 }
 
-static void hleBootstrap() { // 0xbfc00000
+static u32 hleBootstrap() { // 0xbfc00000
 	SysPrintf("hleBootstrap\n");
 	CheckCdrom();
 	LoadCdrom();
@@ -70,7 +70,7 @@ typedef struct {
 	unsigned long _sp,_fp,_gp,ret,base;
 } EXEC;
 
-static void hleExecRet() {
+static u32 hleExecRet() {
 	EXEC *header = (EXEC*)PSXM(psxRegs->GPR.n.s0);
 
 	//SysPrintf("ExecRet %x: %x\n", psxRegs->GPR.n.s0, header->ret);
@@ -83,9 +83,11 @@ static void hleExecRet() {
 
 	psxRegs->GPR.n.v0 = 1;
 	psxRegs->pc = psxRegs->GPR.n.ra;
+
+	return psxRegs->pc;
 }
 
-void (*psxHLEt[256])() = {
+u32 (*psxHLEt[256])() = {
 	hleDummy, hleA0, hleB0, hleC0,
 	hleBootstrap, hleExecRet
 };

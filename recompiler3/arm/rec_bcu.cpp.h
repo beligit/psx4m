@@ -430,15 +430,21 @@ static void recBREAK() { }
 
 static void recHLE() 
 {
+#ifdef WITH_HLE
 	regClearJump();
 	
 	/* Needed? */
 	LoadImmediate32(pc, TEMP_1);
 	ARM_STR_IMM(ARM_POINTER, TEMP_1, PERM_REG_1, 648);
 
-	LoadImmediate32((((pc-oldpc)/4)), ARMREG_R0);
 	CALLFunc((u32)psxHLEt[psxRegs->code & 0xffff]);
+	ARM_MOV_REG_REG(ARM_POINTER, ARMREG_R1, ARMREG_R0);
+
+	LoadImmediate32((((pc-oldpc)/4)), ARMREG_R0);
+
+	CALLFunc((u32)psxBranchTest_rec);
 
 	end_block = 1;
+#endif
 }
 

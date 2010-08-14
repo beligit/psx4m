@@ -1,3 +1,14 @@
+psx4m (0.4.2) fremantle; urgency=low
+
+  * Fixed interlace mode crash
+  * Updated MDEC
+  * Fixed GPU stats display
+  * Removed HLE support
+  * Implemented sound muting
+  * Ported CycleMultiplier from PSX4ALL
+
+ -- Tomasz Sterna <tomek@xiaoka.com>  Sun,  1 Aug 2010 02:37:27 +0200
+
 psx4m (0.4.1) fremantle; urgency=low
 
   * Initial packaging.

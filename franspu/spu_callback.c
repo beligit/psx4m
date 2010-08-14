@@ -249,6 +249,8 @@ inline void SPU_async_any(SPUCHAN * pChannel,int *SSumL, int *SSumR, int *iFMod,
  	int predict_nr,shift_factor,flags,s;
 	const int f[5][2] = {{0,0},{60,0},{115,-52},{98,-55},{122,-60}};
 
+ 	if( iSoundMuted > 0 ) return;
+
  	memset(SSumL,0,nsamples*sizeof(int));
  	memset(SSumR,0,nsamples*sizeof(int));
 

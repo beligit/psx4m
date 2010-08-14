@@ -20,6 +20,8 @@
 
 #include "PsxCommon.h"
 
+int PsxCycleMult = 1;
+
 static int cnts = 4;
 
 static void psxRcntUpd(unsigned long index) {

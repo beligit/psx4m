@@ -38,4 +38,6 @@ int psxRcntFreeze(gzFile f, int Mode);
 
 void psxUpdateVSyncRate();
 
+extern int PsxCycleMult;
+
 #endif /* __PSXCOUNTERS_H__ */

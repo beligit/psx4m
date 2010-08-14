@@ -373,13 +373,16 @@ void  gpuSkipUpdate()
   if(displayFrameInfo && (!isSkip))
   {
     int ypos = 0;
-    gp2x_printf(NULL, 0, ypos,"VS:%04.4g fps:NA real:NA fs(%d/%d) (%3d,%2d,%2d)ms", float(vsincRate)/100.0f, skipCount, skipRate, gp2x_timer_raw_to_ticks(curFrame),gp2x_timer_raw_to_ticks(curFlip),gp2x_timer_raw_to_ticks(curDelay));
-    //gp2x_printf(NULL, 0, ypos,"VS:%04.4g fps:%04.4g real:%04.4g fs(%d/%d) (%3d,%2d,%2d)ms", float(vsincRate)/100.0f, float(frameRate)/100.0f, float(realRate)/100.0f, skipCount, skipRate, gp2x_timer_raw_to_ticks(curFrame),gp2x_timer_raw_to_ticks(curFlip),gp2x_timer_raw_to_ticks(curDelay));
+    //gp2x_printf(NULL, 0, ypos,"VS:%04.4g fps:NA real:NA fs(%d/%d) (%3d,%2d,%2d)ms", float(vsincRate)/100.0f, skipCount, skipRate, gp2x_timer_raw_to_ticks(curFrame),gp2x_timer_raw_to_ticks(curFlip),gp2x_timer_raw_to_ticks(curDelay));
+    gp2x_printf(NULL, 0, ypos,"VS:%04.4g fps:%04.4g real:%04.4g fs(%d/%d) (%3d,%2d,%2d)ms", float(vsincRate)/100.0f, float(frameRate)/100.0f, float(realRate)/100.0f, skipCount, skipRate, gp2x_timer_raw_to_ticks(curFrame),gp2x_timer_raw_to_ticks(curFlip),gp2x_timer_raw_to_ticks(curDelay));
     //gp2x_printf(NULL, 0, ypos+=10,"W:%u H:%u H1:%u (%u-%u)", DisplayArea[2],DisplayArea[3],DisplayArea[7]-DisplayArea[5]);
   #ifdef ENABLE_GPU_PRIM_STATS
+    if(displayGpuStats)
+    {
     int polis = statF3 + statFT3 + statG3 + statGT3;
     gp2x_printf(NULL, 0,(ypos+=10),"PPF (%4d): PPS (%5d): ", polis,  (polis*realRate)/100 );
     gp2x_printf(NULL, 0,(ypos+=10),"types F(%4d) FT(%4d) G(%4d)  GT(%4d)", statF3, statFT3, statG3, statGT3);
+    }
   #endif
   #ifdef ENABLE_GPU_PROFILLER
     if(displayGpuStats)
