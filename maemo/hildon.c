@@ -19,6 +19,15 @@ unsigned short* screenbuffer = NULL;
 
 unsigned long keys = 0;
 
+int keymap[15];
+
+void hildon_quit()
+{
+	gp2x_deinit();
+	gtk_main_quit();
+	exit(0);
+}
+
 static void
 window_key_proxy (GtkWidget *widget,
 		     GdkEventKey *event,
@@ -26,57 +35,40 @@ window_key_proxy (GtkWidget *widget,
 {
 	unsigned long key = 0;
 	
-	switch (event->keyval) {
-		case GDK_Left:
+	//printf("%d\n",event->keyval);		
+
+	if(event->keyval == keymap[0])
 			key = GP2X_LEFT;
-			break;
-		case GDK_Right:
+	else if(event->keyval == keymap[1])
 			key = GP2X_RIGHT;
-			break;
-		case GDK_Up:
+	else if(event->keyval == keymap[2])
 			key = GP2X_UP;
-			break;
-		case GDK_Down:
+	else if(event->keyval == keymap[3])
 			key = GP2X_DOWN;
-			break;
-
-		case GDK_x:
+	else if(event->keyval == keymap[4])
 			key = GP2X_B;
-			break;
-		case GDK_z:
+	else if(event->keyval == keymap[5])
 			key = GP2X_X;
-			break;
-		case GDK_s:
+	else if(event->keyval == keymap[6])
 			key = GP2X_Y;
-			break;
-		case GDK_a:
+	else if(event->keyval == keymap[7])
 			key = GP2X_A;
-			break;
-			
-		case GDK_space:
+	else if(event->keyval == keymap[8])
 			key = GP2X_SELECT;
-			break;
-		case GDK_KP_Enter:
-		case GDK_Return:
+	else if(event->keyval == keymap[9])
 			key = GP2X_START;
-			break;
-
-		case GDK_q:
+	else if(event->keyval == keymap[10])
 			key = GP2X_VOL_DOWN;
-			break;
-		case GDK_r:
+	else if(event->keyval == keymap[11])
 			key = GP2X_VOL_UP;
-			break;
-		case GDK_w:
+	else if(event->keyval == keymap[12])
 			key = GP2X_L;
-			break;
-		case GDK_e:
+	else if(event->keyval == keymap[13])
 			key = GP2X_R;
-			break;
-
-		default:
+	else if(event->keyval == keymap[14])
+		hildon_quit();
+	else 
 			key = 0;
-	}
 	
 	if (event->type == GDK_KEY_PRESS) {
 		keys |= key;
@@ -88,17 +80,23 @@ window_key_proxy (GtkWidget *widget,
 	//printf("Key 0x%x %s (0x%x)\n", key, event->type == GDK_KEY_PRESS ? "pressed" : "released", keys);
 }
 
-void hildon_quit()
-{
-	gp2x_deinit();
-	gtk_main_quit();
-	exit(0);
-}
 
 void hildon_init(int *argc, char ***argv)
 {
-	gtk_init (argc, argv);
+	
+	int i;
+	// read key config
+	FILE* pFile;
+	pFile = fopen("/home/opt/psx4m/keys", "r"); // assume the file exists and has data
+	if (NULL != pFile) {
+		for(i=0;i<15;i++){
+			fscanf(pFile, "%i",&keymap[i]);
+			//printf("%d\n",keymap[i]);
+		}
+		fclose(pFile);
+	}
 
+	gtk_init (argc, argv);
 	window = hildon_stackable_window_new ();
 	gtk_widget_realize (window);
 	gtk_window_fullscreen (GTK_WINDOW(window));

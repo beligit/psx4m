@@ -62,8 +62,8 @@ DEFAULT_CFLAGS = -DPANDORA -DGP2X -DARM_ARCH \
  -DROM_PREFIX=\"/home/user/MyDocs\" \
  -Isrc -I./maemo -I./iphone -I$(INCS) $(DEFS) -ggdb -Wno-write-strings
 
-DEFAULT_CFLAGS += $(shell pkg-config --cflags hildon-1 libpulse)
-LDFLAGS += $(shell pkg-config --libs hildon-1 libpulse)
+DEFAULT_CFLAGS += $(shell pkg-config --cflags hildon-1 hildon-fm-2 libpulse)
+LDFLAGS += $(shell pkg-config --libs hildon-1 hildon-fm-2 libpulse)
 
 MORE_CFLAGS = -march=armv7-a -mcpu=cortex-a8 -mtune=cortex-a8 -mfloat-abi=softfp -mfpu=neon \
  -O3 -ffast-math -ftemplate-depth-36 -fstrict-aliasing \
@@ -100,6 +100,14 @@ OBJS =	\
 	interpreter/interpreter.o \
 	iphone/minimal.o \
 	maemo/hildon.o
+
+#OBJS += \
+#	src/maemo/sdl.o \
+#	src/maemo/gui.o \
+#	src/maemo/settings.o \
+#	src/maemo/keys.o \
+#	src/maemo/cellrendererkey.o \
+#	src/maemo/about.o
 	
 OBJS += 	cdr/oldversion/cdriso.o 
 

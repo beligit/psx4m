@@ -32,6 +32,7 @@
 #include "Sio.h"
 #include "gpuAPI/newGPU/newGPU.h"
 
+
 #ifdef IPHONE
 extern const char* get_resource_path(char* file);
 extern const char* get_documents_path(char* file);
@@ -82,7 +83,7 @@ int main(int argc, char *argv[])
 {
 	char *file = NULL;
 	char *lang;
-	int runcd = 0;
+	int runcd = 2;
 	char* loadst = NULL;
 	int i;
 	int  skipCountTable[9] 	= { 0,1,3,2,4,7,10,15,17 };
